@@ -1,0 +1,54 @@
+.film-describtion-container {
+   display: flex;
+   flex-direction: column;
+   gap: 2rem;
+   padding: 4rem 4rem;
+   background-color: #3D5A80;
+   height: calc(100vh - 20rem);
+}
+
+.film-about-wrapper {
+   display: flex;
+   gap: 5rem;
+}
+
+.film-image-container {
+   flex: 0 0 20rem;
+   height: 30rem;
+   position: relative;
+}
+
+.film-about-container {
+   display: flex;
+   flex-direction: column;
+   gap: 2rem;
+}
+
+.film-describtion-name {
+   font-size: 2rem;
+   font-weight: bold;
+}
+
+.film-genre-container {
+   display: flex;
+   gap: 0.5rem;
+   font-size: 1.5rem;
+}
+
+.film-genres {
+   display: flex;
+   gap: 1rem;
+}
+
+.film-about {
+   display: flex;
+   flex-direction: column;
+   gap: 2rem;
+   font-size: 1.5rem;
+}
+
+.film-infoItems {
+   display: flex;
+   gap: 5rem;
+   font-size: 1.5rem;
+}

@@ -1,0 +1,23 @@
+.films-container {
+   padding: 4rem 4rem;
+   background-color: #3D5A80;
+}
+
+.films-title {
+   font-size: 3rem;
+   font-weight: bold;
+}
+
+.films {
+   margin-top: 2rem;
+   display: grid;
+   grid-template-columns: repeat(auto-fill, 20rem);
+   column-gap: 10rem;
+   row-gap: 4rem;
+   align-items: center;
+   justify-content: center;
+
+   @media screen and (max-width: 581px) {
+      grid-template-columns: repeat(auto-fill, 200px);
+   }
+}
