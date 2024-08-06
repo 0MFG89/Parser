@@ -1,2 +1,2 @@
 # Parser
-Simple parser of content about films, serials, anime
+A simple parser for movies, TV series, anime, written using MySQL/React.js/Node.js
