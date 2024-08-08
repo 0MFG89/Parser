@@ -1,5 +1,8 @@
+import { LegacyRef } from "react";
+
 export interface IFilmCardProps {
-   content: IFilmCard
+   content: IFilmCard,
+   refLast?: (node: HTMLDivElement) => void
 }
 
 export interface IFilmCard {
@@ -9,3 +12,4 @@ export interface IFilmCard {
    genre: string;
    filmYear: string
 }
+

@@ -80,10 +80,10 @@ class ContentService {
 
    async getExtractedData(category) {
       const data = await this.getDataByCategory(category);
-      return [this.getPreviewsExtractedData(category, data.previewsData), this.getDescribtionsExtractedData(category, data.describtionsData)];
+      return [this.getFilmsPreviewsExtractedData(data.previewsData), this.getFilmDescribtionsExtractedData(data.describtionsData)];
    }
 
-   getPreviewsExtractedData(data) {
+   getFilmsPreviewsExtractedData(data) {
       return data.map(el => {
          const imgIndex = el.indexOf('srcset="');
          const img = el.slice(imgIndex + 8, el.indexOf('.jpg') + 4);
@@ -97,7 +97,7 @@ class ContentService {
       });
    }
 
-   getDescribtionsExtractedData(data) {
+   getFilmDescribtionsExtractedData(data) {
       return data.map(el => {
          const imgIndex = el.indexOf('srcset="', el.indexOf('class="picture picture-poster"')+10);
          const img = el.slice(imgIndex + 8, el.indexOf('.jpg', imgIndex+8)+4);
@@ -114,9 +114,9 @@ class ContentService {
                          .join(', ');
          const aboutIndex = el.indexOf('<div class="visualEditorInsertion filmDesc_editor more_content"');
          let about = el.slice(aboutIndex + 85, el.indexOf('</div>', aboutIndex + 85))
-                       .slice(about.indexOf('>')+1, about.indexOf('</p>'))
-                       .replace(/<[^>]*>/g, '')
-                       .replace(/&nbsp;/g, " ");
+         about = about.slice(about.indexOf('>')+1, about.indexOf('</p>'))
+                      .replace(/<[^>]*>/g, '')
+                      .replace(/&nbsp;/g, " ");
          const durationIndex = el.indexOf('<span class="filmInfo_infoData">', el.indexOf('<span class="filmInfo_infoName">Продолжительность</span>'));
          const duration = el.slice(durationIndex + 32, el.indexOf('</span>', durationIndex + 32));
          const yearIndex = el.indexOf('<span class="filmInfo_infoData">', el.indexOf('<span class="filmInfo_infoName">Год выпуска</span>'));
@@ -144,7 +144,7 @@ class ContentService {
       dbConnection.end();
    }
 
-   async getPreviewsData(category) {
+   async getPreviewsData(category, page, pageSize) {
       const dbConnection = await mysql.createConnection({
          host: process.env.host,
          user: process.env.user,
@@ -158,7 +158,11 @@ class ContentService {
          getPreviews: `SELECT * FROM ${db}`
       };
       const [ data ] = await dbConnection.execute(sqls.getPreviews);
-      return data;
+      const hasMore = data.length > page*pageSize + pageSize + 1;
+      return {
+         data: data.slice(page*pageSize, page*pageSize + pageSize), 
+         hasMore
+      };
    }
 
    async getDescribtionData(category, id) {

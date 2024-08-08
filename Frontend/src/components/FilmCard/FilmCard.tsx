@@ -1,4 +1,4 @@
-import { DOMElement, FC, useRef, useState } from 'react';
+import React, { DOMElement, FC, useRef, useState } from 'react';
 import './FilmCard.scss';
 import { observer } from 'mobx-react-lite';
 import { IFilmCardProps } from '../../pages/Films/Films.types';
@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 
 const FilmCard: FC<IFilmCardProps> = (props) => {
    const content = props.content;
+   const ref = props.refLast && props.refLast;
 
-   return <div className="filmcard-container">
+   return <div className="filmcard-container" ref={ ref }>
       <Link to={`/films/${content.id}`}>
          <div className="film-picture">
             <img 

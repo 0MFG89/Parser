@@ -19,7 +19,7 @@ class ScrapperService {
       const browser = await puppeteer.launch({
          headless: false,
          args: [
-            '--proxy-server=135.148.171.194:18080',
+            '--proxy-server=128.199.136.56:3128',
             '--no-sandbox',
          ]
       });
@@ -27,16 +27,20 @@ class ScrapperService {
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36');
       page.setDefaultNavigationTimeout(0);
-
-      try {
-         await page.goto(url, {
-            waitUntil: 'networkidle2'
-         });
-      } catch (e) {
-         console.log(e)
+      let attempts = 0;
+      while (attempts < 5) {
+         try {
+            attempts++;
+            await page.goto(url, {
+               waitUntil: 'networkidle2'
+            });
+            break;
+         } catch (e) {
+            console.log(e)
+         }
       }
 
-      //await this.scrapInfiniteScroll(page);
+      await this.scrapInfiniteScroll(page);
 
       const previewsData = await page.evaluate(() => {
          return Array.from(document.querySelectorAll(".movieList_item"))
@@ -53,24 +57,31 @@ class ScrapperService {
 
    async scrapDescriptionsData(refs, page) {
       const data = [];
-      try {
-         for (const ref of refs) {
-            await page.goto(ref, {
-               waitUntil: 'networkidle2'
-            });
 
-            const name = await page.evaluate(() => {
-               return 'Title:' + document.querySelector(".trailer_title").innerHTML + '|';
-            });
-
-            const info = await page.evaluate(() => {
-               return document.querySelector('.filmInfo').innerHTML;
-            });
-
-            data.push(name+info);
+      for (const ref of refs) {
+         let attempts = 0;
+         while (attempts < 10) {
+            try {
+               attempts++;
+               await page.goto(ref, {
+                  waitUntil: 'networkidle2'
+               });
+               break;
+            } catch (e) {
+               console.log(e);
+               continue;
+            }
          }
-      } catch (e) {
-         console.log(e)
+
+         const name = await page.evaluate(() => {
+            return 'Title:' + document.querySelector(".trailer_title").innerHTML + '|';
+          });
+
+         const info = await page.evaluate(() => {
+            return document.querySelector('.filmInfo').innerHTML;
+         });
+
+         data.push(name+info);
       }
       return data;
    }
