@@ -1,6 +1,7 @@
 .films-container {
    padding: 4rem 4rem;
    background-color: #3D5A80;
+   min-height: calc(100vh - 20rem);
 }
 
 .films-title {
@@ -16,10 +17,6 @@
    row-gap: 4rem;
    align-items: center;
    justify-content: center;
-
-   @media screen and (max-width: 581px) {
-      grid-template-columns: repeat(auto-fill, 200px);
-   }
 }
 
 .loading {

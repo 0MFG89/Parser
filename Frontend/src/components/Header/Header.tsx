@@ -7,9 +7,15 @@ import { AiOutlineLogout,  AiOutlineLogin } from "react-icons/ai";
 import Modal from '../Modal/Modal';
 import { IAuthError } from "../../models/IAuthError";
 import { Link } from "react-router-dom";
+import { GiHamburgerMenu, GiFilmStrip } from "react-icons/gi";
 
 const Header: FC = () => {
    const { userStore, statesStore } = useContext(Context);
+   const [burgerIsOpen, setBurgerIsOpen] = useState(false);
+
+   const burgerHandler = () => {
+      setBurgerIsOpen((prev) => !prev);
+   }
 
    useEffect(() => {
       userStore.setError({} as IAuthError);
@@ -23,15 +29,27 @@ const Header: FC = () => {
             </Link>
          </div>
          <nav className="nav-menu">
-            <ul className="nav-list">
+            <div className="burger" onClick={burgerHandler}>
+               <GiHamburgerMenu />
+            </div>
+            <ul className={"nav-list" + (burgerIsOpen ? " burger-open" : "")}>
                <li className="nav-element">
-                  <Link to="/films">Фильмы</Link>
+                  {burgerIsOpen && <Link to='/anime-serials'><GiFilmStrip /></Link>}
+                  <Link to="/films" className="nav-link">
+                     Фильмы
+                  </Link>
                </li>
                <li className="nav-element">
-                  <Link to="/serials">Сериалы</Link>
+                  {burgerIsOpen && <Link to='/anime-serials'><GiFilmStrip /></Link>}
+                  <Link to="/serials" className="nav-link">
+                     Сериалы
+                  </Link>
                </li>
                <li className="nav-element">
-                  <Link to="/anime-serials">Аниме</Link>
+                  {burgerIsOpen && <Link to='/anime-serials'><GiFilmStrip /></Link>}
+                  <Link to="/anime-serials" className="nav-link">
+                     Аниме
+                  </Link>
                </li>
             </ul>
          </nav>
@@ -42,12 +60,12 @@ const Header: FC = () => {
                      ? <div className="user">
                         <div className="user-icon"></div>
                         <div className="logout" onClick={() => userStore.logout()}>
-                          Выйти&nbsp;<AiOutlineLogout />
+                          <span>Выйти</span>&nbsp;<AiOutlineLogout />
                         </div>
                      </div>
                      : <div className="user">
                         <div className="login" onClick={() => statesStore.setIsModal(true)}>
-                           Войти&nbsp;<AiOutlineLogin />
+                           <span>Войти</span>&nbsp;<AiOutlineLogin />
                         </div>
                      </div>
                }

@@ -2,11 +2,6 @@ const scrapperService = require('./scrapper-service');
 const mysql = require('mysql2/promise');
 
 class ContentService {
-   constructor() {
-      this.previewsUrl = {
-         'films': process.env.FILMS_URL,
-      }
-   }
 
    dropPreviewsSql(category) {
       const db = category === 'films'
@@ -75,7 +70,7 @@ class ContentService {
    }
 
    async getDataByCategory(category) {
-      return await scrapperService.scrapData(this.previewsUrl[category]);
+      return await scrapperService.scrapData(process.env.FILMS_URL);
    }
 
    async getExtractedData(category) {

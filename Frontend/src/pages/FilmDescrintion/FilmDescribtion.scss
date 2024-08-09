@@ -4,18 +4,28 @@
    gap: 2rem;
    padding: 4rem 4rem;
    background-color: #3D5A80;
-   height: calc(100vh - 20rem);
+   min-height: calc(100vh - 20rem);
 }
 
 .film-about-wrapper {
    display: flex;
    gap: 5rem;
+
+   @media (max-width: 675px) {
+      flex-direction: column;
+   }
 }
 
 .film-image-container {
    flex: 0 0 20rem;
    height: 30rem;
    position: relative;
+
+   @media (max-width: 675px) {
+      flex: 0 0 30rem;
+      width: 20rem;
+      align-self: center;
+   }
 }
 
 .film-about-container {
@@ -31,12 +41,14 @@
 
 .film-genre-container {
    display: flex;
+   flex-wrap: wrap;
    gap: 0.5rem;
    font-size: 1.5rem;
 }
 
 .film-genres {
    display: flex;
+   flex-wrap: wrap;
    gap: 1rem;
 }
 
@@ -49,6 +61,7 @@
 
 .film-infoItems {
    display: flex;
+   flex-wrap: wrap;
    gap: 5rem;
    font-size: 1.5rem;
 }

@@ -19,7 +19,7 @@ class ScrapperService {
       const browser = await puppeteer.launch({
          headless: false,
          args: [
-            '--proxy-server=128.199.136.56:3128',
+            '--proxy-server=152.42.224.138:3128',
             '--no-sandbox',
          ]
       });
@@ -28,6 +28,7 @@ class ScrapperService {
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36');
       page.setDefaultNavigationTimeout(0);
       let attempts = 0;
+      
       while (attempts < 5) {
          try {
             attempts++;
