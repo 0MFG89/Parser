@@ -6,8 +6,11 @@ import FilmDescribtionResponse from '../models/response/FilmDescribtionResponse'
 export default class ContentService {
    static filmsListCancelToken = {} as Canceler;
 
-   static async getFilmsList(category: string, page: number, pageSize: number): Promise<AxiosResponse<FilmsListResponse>> {
-      return $contentApi.post<FilmsListResponse>('/previews', {category, page, pageSize}, {cancelToken: new axios.CancelToken((c) => this.filmsListCancelToken = c)});
+   static async getFilmsList(category: string, page: number, pageSize: number, userId: number): Promise<AxiosResponse<FilmsListResponse>> {
+      return $contentApi.post<FilmsListResponse>('/previews', 
+         {category, page, pageSize, userId}, 
+         {cancelToken: new axios.CancelToken((c) => this.filmsListCancelToken = c)}
+      );
    }
 
    static async getFilmDescribtion(category: string, id: string | undefined): Promise<AxiosResponse<FilmDescribtionResponse>> {

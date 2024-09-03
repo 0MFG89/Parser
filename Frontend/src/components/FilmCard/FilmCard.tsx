@@ -1,8 +1,10 @@
-import React, { DOMElement, FC, useRef, useState } from 'react';
-import './FilmCard.scss';
-import { observer } from 'mobx-react-lite';
-import { IFilmCardProps } from '../../pages/Films/Films.types';
+import { FC } from 'react';
+import { IFilmCardProps } from './FilmCard.types';
 import { Link } from 'react-router-dom';
+import Stars from '../Stars/Stars';
+import Like from '../Like/Like';
+import WillWatch from '../WillWatch/WillWatch';
+import { observer } from 'mobx-react-lite';
 
 const FilmCard: FC<IFilmCardProps> = (props) => {
    const content = props.content;
@@ -17,16 +19,23 @@ const FilmCard: FC<IFilmCardProps> = (props) => {
                className="film-image"
             />
          </div>
+      </Link>
+      <Stars id={content.id} rating={content.rating.value} />
+      <Link to={`/films/${content.id}`}>
          <div className="film-info-container">
             <div className="film-name">
-               <p>{content.filmName}</p>
+               <p>{content.name}</p>
             </div>
             <div className="film-info">
                <p>{content.genre}</p>
-               <p>{content.filmYear}</p>
+               <p>{content.year}</p>
             </div>
-         </div>
+         </div>      
       </Link>
+      <div className="film-options">
+         <Like id={content.id} isLiked={content.details?.isLiked} />
+         <WillWatch id={content.id} willWatch={content.details?.willWatch} />
+      </div>
    </div>
 }
 

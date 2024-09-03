@@ -1,0 +1,23 @@
+.error-401 {
+   position: absolute;
+   color: red;
+   top: -3rem;
+   left: 0;
+   width: fit-content;
+   font-size: 0.8rem;
+   background-color: $white;
+   border-radius: 0.5rem;
+   padding: 0 1rem;
+   text-align: center;
+   animation: opacity 0.3s ease-in;
+}
+
+@keyframes opacity {
+   0% {
+      opacity: 0;
+   }
+
+   100% {
+      opacity: 1;
+   }
+}

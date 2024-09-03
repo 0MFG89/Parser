@@ -12,7 +12,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.10.3",
     "nodemailer": "^6.9.14",
-    "puppeteer": "^22.13.0",
+    "sequelize": "^6.37.3",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

@@ -2,7 +2,6 @@ import { FC, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Context } from '../../index';
-import './FilmDescribtion.scss';
 import FilmDescribtionResponse from "../../models/response/FilmDescribtionResponse";
 
 const FilmDescribtion: FC = () => {
@@ -16,7 +15,9 @@ const FilmDescribtion: FC = () => {
       return contentStore.setFilmDescribtion({} as FilmDescribtionResponse);
    }, [])
 
-   return <div className="film-describtion-container">
+   console.log('Film Describtion render');
+
+   return <section className="film-describtion-container">
       <div className="film-about-wrapper">
          <div className="film-image-container">
             <img src={img} alt={name} className="film-image" />
@@ -69,7 +70,7 @@ const FilmDescribtion: FC = () => {
             </div>
          </div>
       </div>
-   </div>
+   </section>
 }
 
 export default observer(FilmDescribtion);

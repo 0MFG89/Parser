@@ -1,16 +1,18 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../index';
-import './Modal.scss';
 import Login from '../Login/Login';
 import Registration from '../Registration/Registration';
 import { AiOutlineClose } from "react-icons/ai";
+import { createPortal } from "react-dom";
 
 const LoginModal: FC = () => {
    const [state, setState] = useState<string>('login');
    const { statesStore } = useContext(Context);
 
-   return (
+   console.log('Modal render');
+
+   return createPortal(
       <div className="modal">
          <div className="modal-container">
             <div className="modal-buttons">
@@ -37,6 +39,6 @@ const LoginModal: FC = () => {
             </div>
          </div>
       </div>
-   )
+   , document.getElementById('modal')!)
 }
 export default observer(LoginModal);

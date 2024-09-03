@@ -1,5 +1,4 @@
 import { FC, useContext, useState } from 'react';
-import './Registration.scss';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../index';
 
@@ -15,7 +14,7 @@ const Registration: FC = () => {
          return true;
       }
       return false;
-   }
+   };
 
    const checkLoginErrors = () => {
       if (userStore.error && 
@@ -23,7 +22,7 @@ const Registration: FC = () => {
          return true;
       }
       return false;
-   }
+   };
 
    const checkRepeatPasswordErrors = () => {
       if (userStore.error && 
@@ -31,7 +30,7 @@ const Registration: FC = () => {
          return true;
       }
       return false;
-   }
+   };
 
    const checkPasswordErrors = () => {
       if (userStore.error.errors && 
@@ -39,7 +38,9 @@ const Registration: FC = () => {
          return true;
       }
       return false;
-   }
+   };
+
+   console.log('Registration render');
 
    return (
       <div className="registration-container">

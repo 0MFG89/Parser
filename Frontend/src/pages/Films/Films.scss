@@ -1,6 +1,10 @@
+.films-wrapper {
+   padding: 4rem 0;
+   background-color: $dark-blue;
+}
+
 .films-container {
    padding: 4rem 4rem;
-   background-color: #3D5A80;
    min-height: calc(100vh - 20rem);
 }
 

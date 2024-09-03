@@ -18,7 +18,6 @@ class MailService {
          from: process.env.SMTP_USER,
          to,
          subject: 'Активация акаунта на ' + process.env.CLIENT_URL,
-         //text: '',
          html: `<div><h1>Для активации аккаунта перейдите по ссылке:\n</h1><a href="${link}">${link}</a></div>`
       });
    }

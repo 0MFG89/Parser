@@ -1,3 +1,10 @@
+.filmcard-container {
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   height: 50rem;
+}
+
 .film-picture {
    position: relative;
    width: 100%;
@@ -22,12 +29,7 @@
    }
 }
 
-.film-info-container {
-   height: 14rem;
-}
-
 .film-name {
-   margin-top: 1.5rem;
    font-size: 2rem;
    font-weight: bold;
 }
@@ -38,4 +40,11 @@
    gap: 0.5rem;
    margin-top: 1rem;
    font-size: 1.5rem;
+}
+
+.film-options {
+   display: flex;
+   gap: 1rem;
+   font-size: 2rem;
+   color: $orange;
 }

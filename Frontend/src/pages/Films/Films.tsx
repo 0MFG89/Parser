@@ -1,16 +1,16 @@
 import { FC, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import './Films.scss';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../index';
 import ContentService from '../../services/ContentService';
 import { MdDownloading } from "react-icons/md";
+import Slider from '../../components/Slider/Slider';
 
 const Films: FC = () => {
-   const { contentStore } = useContext(Context);
-   const [ loading, setLoading ] = useState(true);
-
+   const { contentStore, userStore } = useContext(Context);
+   const [ loading, setLoading ] = useState<boolean>(true);
    const observer = useRef<IntersectionObserver | null>(null);
+   
    const lastFilmRef = useCallback((node: HTMLDivElement) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
@@ -24,23 +24,31 @@ const Films: FC = () => {
 
    useEffect(() => {
       setLoading(true);
-      contentStore.getFilmsPreviews('films');
+      contentStore.getFilmsPreviews('films', Number(userStore.user.id));
       setLoading(false);
       return () => ContentService.filmsListCancelToken();
-   }, [contentStore.filmsPage]);
+   }, [contentStore.filmsPage, userStore.user.id]);
 
-   return <div className="films-container">
-      <h2 className="films-title">Фильмы</h2>
-      <div className="films">
-         {contentStore.filmsList.map((f, index) => {
-            if(index === contentStore.filmsList.length-1) {
-               return <FilmCard key={f.id} content={f} refLast={lastFilmRef}/>
-            } 
-            return <FilmCard key={f.id} content={f}/>
-         })}
+
+   return <section className="films-wrapper">
+      <Slider />
+      <div className="films-container">
+         <h2 className="films-title">Фильмы</h2>
+         <div className="films">
+            {contentStore.filmsList.map((f, index) => {
+               if(index === contentStore.filmsList.length-1) {
+                  return <FilmCard key={f.name+index} content={f} refLast={lastFilmRef}/>
+               } 
+               return <FilmCard key={f.name+index} content={f}/>
+            })}
+         </div>
+         {
+            loading && <div className="loading">
+                           <MdDownloading />
+                        </div>
+         }
       </div>
-      {loading && <div className="loading"><MdDownloading /></div>}
-   </div>
+   </section>
 }
 
 export default observer(Films);

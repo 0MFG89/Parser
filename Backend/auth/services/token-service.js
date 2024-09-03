@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const mysql = require("mysql2/promise.js");
+const { refreshTokens } = require('../models');
 
 class TokenService {
    generateTokens(payload) {
@@ -30,54 +31,41 @@ class TokenService {
    }
 
    async saveToken(userId, refreshToken) {
-      const dbConnection = await mysql.createConnection({
-         host: process.env.host,
-         user: process.env.user,
-         database: process.env.db,
-         password: process.env.password
+      const tokenData = await refreshTokens.findOne({
+         where: {
+            userId: userId
+         }
       });
-      const sqls = {
-         sqlFindToken: `SELECT * FROM user_refresh_tokens WHERE user_id=${userId}`,
-         updateRefreshToken: `UPDATE user_refresh_tokens SET refresh_token="${refreshToken}" WHERE user_id=${userId}`,
-         createRefreshToken: `INSERT INTO user_refresh_tokens (user_id, refresh_token) VALUES (${userId}, "${refreshToken}")`
+
+      if (tokenData) {
+         tokenData.refreshToken = refreshToken;
+         return await tokenData.save();
       }
       
-      const [ tokenData ] = await dbConnection.execute(sqls.sqlFindToken);
+      const rToken = refreshTokens.build({
+         userId: userId,
+         refreshToken: refreshToken
+      });
 
-      if (tokenData.length) return await dbConnection.execute(sqls.updateRefreshToken); 
-
-      return await dbConnection.execute(sqls.createRefreshToken);
+      return await rToken.save();
       
    }
 
    async findToken(refreshToken) {
-      const dbConnection = await mysql.createConnection({
-         host: process.env.host,
-         user: process.env.user,
-         database: process.env.db,
-         password: process.env.password
+      const tokenData =  await refreshTokens.findOne({
+         where: {
+            refreshToken: refreshToken
+         }
       });
-      const sqls = {
-         findToken: `SELECT * FROM user_refresh_tokens WHERE refresh_token="${refreshToken}"`
-      }
-      const tokenData =  await dbConnection.execute(sqls.findToken);
-      dbConnection.end();
-      return tokenData[0];
+      return tokenData;
    }
 
    async removeToken(refreshToken) {
-      const dbConnection = await mysql.createConnection({
-         host: process.env.host,
-         user: process.env.user,
-         database: process.env.db,
-         password: process.env.password
+      return await refreshTokens.destroy({
+         where: {
+            refreshToken: refreshToken
+         }
       });
-      const sqls = {
-         deleteToken: `DELETE FROM user_refresh_tokens WHERE refresh_token="${refreshToken}"`
-      }
-      const [ tokenData ] =  await dbConnection.execute(sqls.deleteToken);
-      dbConnection.end();
-      return tokenData[0];
    }
 }
 

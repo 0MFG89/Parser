@@ -1,13 +1,13 @@
 import { observer } from "mobx-react-lite"
 import { FC, useContext, useEffect, useState } from "react";
 import logo from '../../assets/images/logo.png';
-import  './Header.scss';
 import { Context } from '../../index';
 import { AiOutlineLogout,  AiOutlineLogin } from "react-icons/ai";
 import Modal from '../Modal/Modal';
 import { IAuthError } from "../../models/IAuthError";
 import { Link } from "react-router-dom";
-import { GiHamburgerMenu, GiFilmStrip } from "react-icons/gi";
+import { GiHamburgerMenu, GiFilmStrip, GiFilmSpool } from "react-icons/gi";
+import { BsMusicPlayer } from "react-icons/bs";
 
 const Header: FC = () => {
    const { userStore, statesStore } = useContext(Context);
@@ -19,14 +19,25 @@ const Header: FC = () => {
 
    useEffect(() => {
       userStore.setError({} as IAuthError);
-   }, [statesStore.isModal])
+   }, [statesStore.isModal]);
+
+   console.log('Header render');
 
    return <header>
       <div className="header-container">
          <div className="logo-container">
-            <Link to='/'>
-               <img src={logo} alt="" className="logo" />
-            </Link>
+            <div className="product-logo">
+               <Link to='/'>
+                  <img src={logo} alt="" className="logo" />
+               </Link>
+            </div>
+            <div className="product-name-container">
+               <Link to='/' className="product-name">               
+                  <span>Skibidi</span>
+                  <span>Films</span>
+               </Link>
+
+            </div>
          </div>
          <nav className="nav-menu">
             <div className="burger" onClick={burgerHandler}>
@@ -40,15 +51,15 @@ const Header: FC = () => {
                   </Link>
                </li>
                <li className="nav-element">
-                  {burgerIsOpen && <Link to='/anime-serials'><GiFilmStrip /></Link>}
+                  {burgerIsOpen && <Link to='/anime-serials'><GiFilmSpool /></Link>}
                   <Link to="/serials" className="nav-link">
                      Сериалы
                   </Link>
                </li>
                <li className="nav-element">
-                  {burgerIsOpen && <Link to='/anime-serials'><GiFilmStrip /></Link>}
+                  {burgerIsOpen && <Link to='/anime-serials'><BsMusicPlayer /></Link>}
                   <Link to="/anime-serials" className="nav-link">
-                     Аниме
+                     Музыка
                   </Link>
                </li>
             </ul>

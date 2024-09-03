@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import './Footer.scss';
 import { observer } from 'mobx-react-lite';
 import { FaTelegram, FaVk, FaInstagram } from "react-icons/fa";
 
 const Footer: FC = () => {
+   console.log('Footer render');
+
    return <footer>
       <div className="footer-container">
          <div className="socials">
@@ -15,4 +16,4 @@ const Footer: FC = () => {
    </footer>
 }
 
-export default observer(Footer);
+export default Footer;

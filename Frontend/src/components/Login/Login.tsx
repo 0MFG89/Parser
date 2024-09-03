@@ -1,8 +1,9 @@
 import React, { FC, useContext, useState } from "react";
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../index';
-import './Login.scss';
 import { AiOutlineUser, AiFillLock } from "react-icons/ai";
+
+// Анимировать кнопку
 
 const Login: FC = () => {
    const [email, setEmail] = useState<string>('');
@@ -12,10 +13,17 @@ const Login: FC = () => {
    const checkLoginErrors = () => {
       if (userStore.error && 
          userStore.error.message === `Пользователь не был найден`) {
-         return true;
+         return <p className="modal-error">
+            Пользователь с таким email не был найден
+         </p>;
       }
-      return false;
-   }
+      if (userStore.error &&
+         userStore.error.message === 'Аккаунт пользователя не активирован') {
+         return <p className="modal-error">
+            Необходимо активировать аккаунт!
+         </p>;
+      } 
+   };
 
    const checkPasswordErrors = () => {
       if (userStore.error && 
@@ -23,15 +31,15 @@ const Login: FC = () => {
          return true;
       }
       return false;
-   }
+   };
+
+   console.log('Login render');
 
    return (
    <div className="login-container">
       <div className="login-modal">
          { 
-            checkLoginErrors() && <p className="modal-error">
-               Пользователь с таким email не был найден
-            </p>
+            checkLoginErrors()
          }
          <div className="modal-input">
             <input 
